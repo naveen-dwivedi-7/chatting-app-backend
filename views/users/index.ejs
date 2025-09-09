@@ -1,0 +1,65 @@
+<%- include("../partials/header") %>
+<script>
+  // check auth before showing page
+  document.addEventListener("DOMContentLoaded", () => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      // redirect if token is missing
+      window.location.href = "/api/auth/login";
+    }
+  });
+</script>
+
+<div class="container mt-4">
+  <h2>User List</h2>
+  <a href="/api/auth/users/add" class="btn btn-primary mb-3">Add User</a>
+  
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>ID</th><th>Name</th><th>Email</th><th>Phone</th><th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% users.forEach(user => { %>
+        <tr>
+          <td><%= user.id %></td>
+          <td><%= user.name %></td>
+          <td><%= user.email %></td>
+          <td><%= user.phone %></td>
+          <td>
+            <a href="/api/auth/users/edit/<%= user.id %>" class="btn btn-warning btn-sm">Edit</a>
+            <button class="btn btn-danger btn-sm" data-id="<%= user.id %>">
+              Delete
+            </button>
+          </td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+
+  <!-- Pagination -->
+  <nav>
+    <ul class="pagination">
+      <% if (currentPage > 1) { %>
+        <li class="page-item">
+          <a class="page-link" href="?page=<%= currentPage - 1 %>">Previous</a>
+        </li>
+      <% } %>
+
+      <% for (let i = 1; i <= totalPages; i++) { %>
+        <li class="page-item <%= i === currentPage ? 'active' : '' %>">
+          <a class="page-link" href="?page=<%= i %>"><%= i %></a>
+        </li>
+      <% } %>
+
+      <% if (currentPage < totalPages) { %>
+        <li class="page-item">
+          <a class="page-link" href="?page=<%= currentPage + 1 %>">Next</a>
+        </li>
+      <% } %>
+    </ul>
+  </nav>
+</div>
+
+<%- include("../partials/footer") %>
