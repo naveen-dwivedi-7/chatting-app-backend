@@ -1,0 +1,29 @@
+<%- include("../partials/header") %>
+<h2 class="text-center mb-4">Login</h2>
+
+<!-- Error messages -->
+<!-- <% if (typeof errors !== "undefined" && errors.length > 0) { %>
+  <div class="alert alert-danger">
+    <ul>
+      <% errors.forEach(error => { %>
+        <li><%= error.msg %></li>
+      <% }) %>
+    </ul>
+  </div>
+<% } %> -->
+<form id="loginForm" method="post" action="/api/auth/login" class="mx-auto" style="max-width:400px;">
+  <div class="mb-3">
+    <label>Email</label>
+    <input type="email" name="email" class="form-control" required>
+  </div>
+  <div class="mb-3">
+    <label>Password</label>
+    <input type="password" name="password" class="form-control" required>
+  </div>
+  <button class="btn btn-primary w-100">Login</button>
+  <div id="loginMsg"></div>
+
+  <!-- <button id="testBtn" class="btn btn-primary">Test JS</button> -->
+
+</form>
+<%- include("../partials/footer") %>
