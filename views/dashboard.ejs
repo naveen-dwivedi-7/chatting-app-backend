@@ -1,0 +1,12 @@
+<h2>Dashboard</h2>
+
+<h1>
+  Welcome, 
+  <% if (user) { %>
+    <%= user.name %> | <a href="/api/auth/login">Logout</a>
+  <% } else { %>
+    Guest
+  <% } %>
+</h1>
+
+<p>Email: <%= user ? user.email : "Not logged in" %></p>

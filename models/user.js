@@ -32,6 +32,15 @@ getAllPaginated: async (limit, offset) => {
     );
     return rows;
   },
+
+  // ✅ Converted to async/await
+  findByEmail: async (email) => {
+    const [rows] = await db.query(
+      `SELECT * FROM users WHERE email = ?`,
+      [email]
+    );
+    return rows;
+  },
 };
 
 module.exports = User;

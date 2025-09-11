@@ -47,48 +47,48 @@ const authController = {
       res.status(500).send("Internal server error");
     }
   },
-   showLogin: (req, res) => {
+  showLogin: (req, res) => {
     res.render("auth/login", { title: "Login" });
   },
 
- login: async (req, res) => {
-  try {
-    const { email, password } = req.body;
+  login: async (req, res) => {
+    try {
+      const email = req.body?.email;
+      const password = req.body?.password;
+      if (!email || !password) return res.status(400).json({ error: "Email & password required" });
 
-    const users = await User.findByEmailOrPhone(email, email);
-    if (!users || users.length === 0) {
-      return res.status(400).json({ error: "User not found" });
+      const results = await User.findByEmail(email);
+      if (!results || results.length === 0) return res.status(404).json({ error: "User not found" });
+
+      const user = results[0];
+      const isMatch = await bcrypt.compare(password, user.password);
+      if (!isMatch) return res.status(401).json({ error: "Incorrect password" });
+
+      const token = jwt.sign({ id: user.id, name: user.name, email: user.email }, process.env.JWT_SECRET, {
+        expiresIn: process.env.JWT_EXPIRES_IN
+      });
+      // Store token in HTTP-only cookie
+      res.cookie("token", token, {
+        httpOnly: true,
+        maxAge: 1000 * 60 * 60 * 24, // 1 day
+        sameSite: "Lax",
+        domain: "localhost", // ✅ explicitly set domain
+        secure: false // set true if using HTTPS
+      });
+
+      return res.json({ message: "Login successful", token, user: { id: user.id, name: user.name, email: user.email } });
+    } catch (err) {
+      console.error("❌ Login error:", err);
+      return res.status(500).json({ error: "Internal server error" });
     }
+  },
 
-    const user = users[0];
-    console.log(`user:${user}`)
-    const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) {
-      return res.status(400).json({ error: "Invalid credentials" });
-    }
 
-    const token = jwt.sign(
-      { id: user.id, email: user.email },
-      process.env.JWT_SECRET,
-      { expiresIn: process.env.JWT_EXPIRES_IN || "1h" }
-    );
+  logout: (req, res) => {
+    res.clearCookie('token');
+    res.redirect('/login');
+  },
 
-    // ✅ Send JSON response
-    res.status(200).json({
-      message: "Login successful",
-      token,
-      user: {
-        id: user.id,
-        name: user.name,
-        email: user.email,
-        phone: user.phone,
-      },
-    });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: "Internal server error" });
-  }
-}
 
 };
 
