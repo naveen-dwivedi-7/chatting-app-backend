@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const authController = require("../controllers/authController");
 const upload = require("../middlewares/multerconfig");
-const authenticateToken=require("../middlewares/auth")
+// const authenticateToken=require("../middlewares/auth")
 
 
 

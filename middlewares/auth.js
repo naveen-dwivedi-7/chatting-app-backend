@@ -2,28 +2,23 @@ const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
 
-const authenticateToken = (req, res, next) => {
-  const token = req.cookies.token;
-  // const token =localStorage.getItem('token');
-  console.log(`Token:${token}`);
 
+function authenticateToken(req, res, next) {
+  const token = req.cookies.token; // read token from cookie
 
   if (!token) {
-    console.log("❌ No token found, redirecting to login");
+    // user not logged in
     return res.redirect("/login");
   }
 
-  jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
-    if (err) {
-      console.log("❌ Invalid token:", err);
-      return res.redirect("/login");
-    }
-
-    req.user = user; // attach decoded user info to req
-    next();
-  });
-};
-
-
+  try {
+    const user = jwt.verify(token, process.env.JWT_SECRET); // verify token
+    req.user = user; // attach user info to request object
+    next(); // proceed to next middleware or route handler
+  } catch (err) {
+    console.error("Invalid token:", err);
+    return res.redirect("/login");
+  }
+}
 
 module.exports = authenticateToken;
