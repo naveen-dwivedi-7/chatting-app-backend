@@ -12,9 +12,31 @@
       <div>
         <a href="/api/auth/login" class="btn btn-outline-light">Login</a>
         <a href="/api/auth/register" class="btn btn-outline-light">Register</a>
-          <button id="logoutBtn" class="btn btn-danger">Logout</button>
+        <button id="logoutBtn" class="btn btn-danger">Logout</button>
 
       </div>
     </div>
   </nav>
   <div class="container mt-4">
+<script>
+    // Check if token exists in localStorage
+    const token = localStorage.getItem("token");
+
+    const loginBtn = document.getElementById("loginBtn");
+    const registerBtn = document.getElementById("registerBtn");
+    const logoutBtn = document.getElementById("logoutBtn");
+
+    if (token) {
+      // User is logged in
+      loginBtn.style.display = "none";
+      registerBtn.style.display = "none";
+      logoutBtn.style.display = "inline-block";
+    }
+
+    // Logout functionality
+    logoutBtn.addEventListener("click", () => {
+      localStorage.removeItem("token");
+      window.location.href = "/api/auth/login"; // redirect to login page
+    });
+  </script>
+

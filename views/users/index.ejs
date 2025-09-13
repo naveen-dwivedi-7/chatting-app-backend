@@ -1,0 +1,76 @@
+<%- include("../partials/header") %>
+
+<h2 class="mb-4">Users List</h2>
+
+<!-- ✅ Add User button -->
+<div class="mb-3">
+  <a href="/users/add" class="btn btn-primary">+ Add User</a>
+</div>
+
+<table class="table table-bordered table-striped">
+<thead>
+<tr>
+  <th>S.No.</th>
+  <th>Profile Image</th>
+  <th>Name</th>
+  <th>Email</th>
+  <th>Phone</th>
+  <th>Actions</th> <!-- ✅ New column -->
+</tr>
+</thead>
+<tbody>
+<% if (users.length > 0) { %>
+  <% users.forEach((user, index) => { %>
+  <tr>
+    <td><%= (currentPage - 1) * 5 + (index + 1) %></td>
+
+    <td>
+      <% if (user.profile_image) { %>
+        <img src="/uploads/<%= user.profile_image %>" alt="Profile" width="60" height="60" class="rounded-circle"/>
+      <% } else { %>
+        <span>No Image</span>
+      <% } %>
+    </td>
+    <td><%= user.name %></td>
+    <td><%= user.email %></td>
+    <td><%= user.phone %></td>
+
+    <!-- ✅ Action Buttons -->
+    <td>
+      <a href="/users/edit/<%= user.id %>" class="btn btn-sm btn-warning">Edit</a>
+    <button type="button" class="btn btn-danger btn-sm delete-btn" data-id="<%= user.id %>">Delete</button>
+    </td>
+  </tr>
+  <% }) %>
+<% } else { %>
+<tr>
+  <td colspan="6" class="text-center">No users found</td>
+</tr>
+<% } %>
+</tbody>
+</table>
+
+<nav>
+  <ul class="pagination">
+
+    <!-- Previous Button -->
+    <li class="page-item <%= currentPage === 1 ? 'disabled' : '' %>">
+      <a class="page-link" href="/users?page=<%= currentPage - 1 %>">Previous</a>
+    </li>
+
+    <!-- Page Numbers -->
+    <% for (let i = 1; i <= totalPages; i++) { %>
+      <li class="page-item <%= i === currentPage ? 'active' : '' %>">
+        <a class="page-link" href="/users?page=<%= i %>"><%= i %></a>
+      </li>
+    <% } %>
+
+    <!-- Next Button -->
+    <li class="page-item <%= currentPage === totalPages ? 'disabled' : '' %>">
+      <a class="page-link" href="/users?page=<%= currentPage + 1 %>">Next</a>
+    </li>
+
+  </ul>
+</nav>
+
+<%- include("../partials/footer") %>

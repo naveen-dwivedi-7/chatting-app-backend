@@ -8,7 +8,7 @@ function authenticateToken(req, res, next) {
 
   if (!token) {
     // user not logged in
-    return res.redirect("/login");
+    return res.redirect("/api/auth/login");
   }
 
   try {
@@ -17,7 +17,7 @@ function authenticateToken(req, res, next) {
     next(); // proceed to next middleware or route handler
   } catch (err) {
     console.error("Invalid token:", err);
-    return res.redirect("/login");
+    return res.redirect("/api/auth/login");
   }
 }
 

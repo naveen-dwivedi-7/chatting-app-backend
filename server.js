@@ -38,7 +38,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // Routes
 app.use("/api/auth", authRoutes);
-app.use("/user", userRoutes);
+app.use("/users", userRoutes);
 
 
 // Start server

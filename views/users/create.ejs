@@ -1,0 +1,31 @@
+<%- include("../partials/header") %>
+
+<h2 class="text-center mb-4">Add User</h2>
+
+<div id="alert-box"></div>
+
+<form id="addUserForm" action="/add" method="POST" enctype="multipart/form-data" class="mx-auto" style="max-width:400px;">
+  <div class="mb-3">
+    <label>Name</label>
+    <input type="text" name="name" class="form-control" required>
+  </div>
+  <div class="mb-3">
+    <label>Email</label>
+    <input type="email" name="email" class="form-control" required>
+  </div>
+  <div class="mb-3">
+    <label>Phone</label>
+    <input type="text" name="phone" class="form-control" required>
+  </div>
+  <div class="mb-3">
+    <label>Password</label>
+    <input type="password" name="password" class="form-control" required>
+  </div>
+  <div class="mb-3">
+    <label>Profile Image</label>
+    <input type="file" name="profile_image" class="form-control">
+  </div>
+  <button type="submit" class="btn btn-primary w-100">Add</button>
+</form>
+
+<%- include("../partials/footer") %>

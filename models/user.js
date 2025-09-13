@@ -2,7 +2,7 @@ const db = require("../config/db");
 
 const User = {
   // Get paginated users
-getAllPaginated: async (limit, offset) => {
+  getAllPaginated: async (limit, offset) => {
     const [rows] = await db.query("SELECT * FROM users LIMIT ? OFFSET ?", [limit, offset]);
     const [countResult] = await db.query("SELECT COUNT(*) as count FROM users");
     const total = countResult[0].count;
@@ -41,6 +41,64 @@ getAllPaginated: async (limit, offset) => {
     );
     return rows;
   },
+
+  // Find user by ID
+  findById: async (id) => {
+    const [rows] = await db.query(
+      `SELECT * FROM users WHERE id = ?`,
+      [id]
+    );
+    return rows[0]; // return single user
+  },
+
+  // Update user by ID
+  updateById: async (id, data) => {
+    const { name, email, phone, password, profile_image } = data;
+
+    const [result] = await db.query(
+      `UPDATE users 
+       SET name = ?, email = ?, phone = ?, password = ?, profile_image = ?
+       WHERE id = ?`,
+      [name, email, phone, password, profile_image, id]
+    );
+
+    return result;
+  },
+
+  existsWithEmail: async (email, excludeId = null) => {
+    let query = "SELECT id FROM users WHERE email = ?";
+    let params = [email];
+
+    if (excludeId) {
+      query += " AND id != ?";
+      params.push(excludeId);
+    }
+
+    const [rows] = await db.query(query, params);
+    return rows.length > 0; // true if exists
+  },
+
+  // Check if phone exists for another user
+  existsWithPhone: async (phone, excludeId = null) => {
+    let query = "SELECT id FROM users WHERE phone = ?";
+    let params = [phone];
+
+    if (excludeId) {
+      query += " AND id != ?";
+      params.push(excludeId);
+    }
+
+    const [rows] = await db.query(query, params);
+    return rows.length > 0; // true if exists
+  },
+
+  
+  deleteById: async (id) => {
+  const [result] = await db.query("DELETE FROM users WHERE id = ?", [id]);
+  return result;
+},
+
+
 };
 
 module.exports = User;
