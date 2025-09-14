@@ -61,17 +61,44 @@ document.addEventListener("DOMContentLoaded", () => {
 //---------------------Logout--------------------------------
 
 
+// document.addEventListener("DOMContentLoaded", () => {
+//   const logoutBtn = document.getElementById("logoutBtn");
+
+//   if (logoutBtn) {
+//     logoutBtn.addEventListener("click", () => {
+//       localStorage.removeItem("token"); // clear token
+//       alert("You have been logged out ✅");
+//       window.location.href = "/api/auth/login"; // redirect to login
+//     });
+//   }
+// });
+
 document.addEventListener("DOMContentLoaded", () => {
   const logoutBtn = document.getElementById("logoutBtn");
 
   if (logoutBtn) {
-    logoutBtn.addEventListener("click", () => {
-      localStorage.removeItem("token"); // clear token
-      alert("You have been logged out ✅");
-      window.location.href = "/api/auth/login"; // redirect to login
+    logoutBtn.addEventListener("click", async (e) => {
+      e.preventDefault();
+
+      try {
+        const res = await fetch("/api/auth/logout", {
+          method: "GET",
+          credentials: "include", // ✅ include cookies
+        });
+
+        if (res.redirected) {
+          window.location.href = res.url; // ✅ follow backend redirect
+        } else {
+          window.location.href = "/api/auth/login";
+        }
+      } catch (err) {
+        console.error("Logout error:", err);
+        window.location.href = "/api/auth/login";
+      }
     });
   }
 });
+
 
 //-----------------------list----------------------------------------------
 

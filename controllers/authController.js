@@ -4,9 +4,23 @@ const jwt = require("jsonwebtoken");
 
 
 const authController = {
+  // showRegister: (req, res) => {
+  //   res.render("auth/register", { title: "Register" });
+  // },
+
   showRegister: (req, res) => {
-    res.render("auth/register", { title: "Register" });
+    try {
+      // if already logged in, go to /users
+      if (req.cookies.token) {
+        return res.redirect("/users");
+      }
+      res.render("auth/register", { title: "Register" });
+    } catch (err) {
+      console.error("Error in showRegister:", err);
+      res.status(500).send("Internal server error");
+    }
   },
+
 
   register: async (req, res) => {
     console.log("inside register");
@@ -47,10 +61,22 @@ const authController = {
       res.status(500).send("Internal server error");
     }
   },
-  showLogin: (req, res) => {
-    res.render("auth/login", { title: "Login" });
-  },
+  // showLogin: (req, res) => {
+  //   res.render("auth/login", { title: "Login" });
+  // },
 
+  showLogin: (req, res) => {
+    try {
+      // if user already has a token/session, redirect them
+      if (req.cookies.token) {
+        return res.redirect("/users");
+      }
+      res.render("auth/login", { title: "Login" });
+    } catch (err) {
+      console.error("Error in showLogin:", err);
+      res.status(500).send("Internal server error");
+    }
+  },
   login: async (req, res) => {
     try {
       const email = req.body?.email;
@@ -84,9 +110,23 @@ const authController = {
   },
 
 
+  // logout: (req, res) => {
+  //   res.clearCookie('token');
+  //   res.redirect('/login');
+  // },
   logout: (req, res) => {
-    res.clearCookie('token');
-    res.redirect('/login');
+    console.log("Before clear:", req.cookies);
+
+    res.clearCookie("token", {
+      httpOnly: true,
+      sameSite: "Lax",
+      domain: "localhost",
+      secure: false,
+    });
+    console.log("After clear:", req.cookies);
+
+    res.redirect("/api/auth/login");
+     // redirect to login page
   },
 
 
