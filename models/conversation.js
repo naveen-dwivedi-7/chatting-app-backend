@@ -3,13 +3,21 @@ const db = require("../config/db");
 const Conversation = {
   // ✅ Get paginated conversations
   getAllPaginated: async (limit, offset) => {
+    // Fetch conversations with user names
     const [rows] = await db.query(
-      "SELECT * FROM conversations ORDER BY updated_at DESC LIMIT ? OFFSET ?",
+      `SELECT c.id, c.title, c.type, u.name AS created_by_name
+       FROM conversations c
+       LEFT JOIN users u ON c.created_by = u.id
+       ORDER BY c.updated_at DESC
+       LIMIT ? OFFSET ?`,
       [limit, offset]
     );
+
+    // Get total count for pagination
     const [countResult] = await db.query("SELECT COUNT(*) as count FROM conversations");
     const total = countResult[0].count;
-    return { rows, total }; // rows must be an array
+
+    return { rows, total }; // rows is an array of conversations with user names
   },
 
   // ✅ Count conversations

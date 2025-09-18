@@ -29,7 +29,8 @@
                 Unknown
               <% } %>
             </td>
-            <td><%= conv.created_by %></td>
+           <td><%= conv.created_by_name %></td>
+
             <td>
               <a href="/conversations/<%= conv.id %>/edit" class="btn btn-sm btn-warning">✏ Edit</a>
               <form action="/conversations/<%= conv.id %>/delete" method="POST" style="display:inline;">

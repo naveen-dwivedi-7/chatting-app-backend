@@ -19,23 +19,22 @@ const conversationController = {
   // ✅ List Conversations (Paginated)
   list: async (req, res) => {
     try {
-      const page = parseInt(req.query.page) || 1;
-      const limit = 5;
-      const offset = (page - 1) * limit;
+    const page = parseInt(req.query.page) || 1;
+    const limit = 10;
+    const offset = (page - 1) * limit;
 
-      const { rows, total } = await Conversation.getAllPaginated(limit, offset);
-      const totalPages = Math.ceil(total / limit);
+    const { rows: conversations, total } = await Conversation.getAllPaginated(limit, offset);
+    const totalPages = Math.ceil(total / limit);
 
-      res.render("conversations/index", {
-        title: "Conversations List",
-        conversations: rows,
-        currentPage: page,
-        totalPages,
-      });
-    } catch (err) {
-      console.error("Error fetching conversations:", err);
-      res.status(500).send("Something went wrong");
-    }
+    res.render('conversations/index', {
+      conversations,
+      currentPage: page,
+      totalPages
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Server Error');
+  }
   },
 
   // ✅ Add Conversation
