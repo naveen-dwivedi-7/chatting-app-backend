@@ -98,6 +98,10 @@ const User = {
   return result;
 },
 
+getAll: async () => {
+    const [rows] = await db.query("SELECT id, name FROM users");
+    return rows;
+  },
 
 };
 
