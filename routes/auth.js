@@ -3,6 +3,7 @@ const router = express.Router();
 const authController = require("../controllers/authController");
 const upload = require("../middlewares/multerconfig");
 const authenticateToken=require("../middlewares/auth")
+// const userController = require("../controllers/userController");
 
 
 
@@ -11,7 +12,7 @@ const authenticateToken=require("../middlewares/auth")
 router.get("/register", authController.showRegister);
 router.post("/register", upload.single("profile_image"), authController.register);
 
-router.get('/', authController.showLogin);
+// router.get('/', authenticateToken,userController.listUsers);
 
 
 router.get('/login', authController.showLogin);

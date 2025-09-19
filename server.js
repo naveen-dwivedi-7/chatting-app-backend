@@ -10,7 +10,7 @@ const conversationRoutes = require("./routes/conversation");
 const messageRoutes = require("./routes/message");
 const memberRoutes = require("./routes/member");
 
-
+const indexRoutes = require("./routes/index");
 
 const app = express();
 const PORT = process.env.PORT || 7000;
@@ -51,6 +51,7 @@ app.use("/users", userRoutes);
 app.use("/conversations", conversationRoutes);
 app.use("/messages", messageRoutes);
 app.use("/members", memberRoutes);
+app.use("/", indexRoutes);
 
 
 

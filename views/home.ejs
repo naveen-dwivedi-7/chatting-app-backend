@@ -1,0 +1,54 @@
+<%- include('partials/header') %>
+
+<div class="container mt-5 text-center">
+  <h1 class="display-5 fw-bold text-primary mb-4">Welcome to Chat App 👋</h1>
+  <p class="lead text-muted mb-5">
+    Manage your <strong>Users</strong>, <strong>Conversations</strong>, and <strong>Messages</strong> all in one place.
+  </p>
+
+  <div class="row g-4 justify-content-center">
+    <!-- Users Card -->
+    <div class="col-md-3">
+      <div class="card shadow-sm border-0 h-100">
+        <div class="card-body text-center">
+          <div class="mb-3">
+            <i class="bi bi-people-fill text-secondary" style="font-size: 3rem;"></i>
+          </div>
+          <h5 class="card-title">Users</h5>
+          <p class="card-text text-muted">View and manage all registered users.</p>
+          <a href="/users" class="btn btn-outline-secondary w-100">View Users</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Conversations Card -->
+    <div class="col-md-3">
+      <div class="card shadow-sm border-0 h-100">
+        <div class="card-body text-center">
+          <div class="mb-3">
+            <i class="bi bi-chat-dots-fill text-primary" style="font-size: 3rem;"></i>
+          </div>
+          <h5 class="card-title">Conversations</h5>
+          <p class="card-text text-muted">Explore ongoing conversations between users.</p>
+          <a href="/conversations" class="btn btn-primary w-100">View Conversations</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Messages Card -->
+    <div class="col-md-3">
+      <div class="card shadow-sm border-0 h-100">
+        <div class="card-body text-center">
+          <div class="mb-3">
+            <i class="bi bi-envelope-fill text-success" style="font-size: 3rem;"></i>
+          </div>
+          <h5 class="card-title">Messages</h5>
+          <p class="card-text text-muted">Read and manage all user messages.</p>
+          <a href="/messages" class="btn btn-outline-success w-100">View Messages</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%- include('partials/footer') %>
