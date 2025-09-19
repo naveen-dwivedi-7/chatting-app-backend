@@ -14,20 +14,18 @@
       <a href="/messages" class="navbar-brand">Messages</a>
       <a href="/members" class="navbar-brand">Members</a>
 
- 
-
       <div>
-        <a href="/api/auth/login" class="btn btn-outline-light">Login</a>
-        <a href="/api/auth/register" class="btn btn-outline-light">Register</a>
-        <button id="logoutBtn" class="btn btn-danger">Logout</button>
-
+        <!-- Added IDs -->
+        <a id="loginBtn" href="/api/auth/login" class="btn btn-outline-light">Login</a>
+        <a id="registerBtn" href="/api/auth/register" class="btn btn-outline-light">Register</a>
+        <button id="logoutBtn" class="btn btn-danger" style="display: none;">Logout</button>
       </div>
     </div>
   </nav>
-  <script src="../../public/js/auth.js"></script>
 
-  <div class="container mt-4">
-<script>
+  <div class="container mt-4"></div>
+
+  <script>
     // Check if token exists in localStorage
     const token = localStorage.getItem("token");
 
@@ -36,10 +34,15 @@
     const logoutBtn = document.getElementById("logoutBtn");
 
     if (token) {
-      // User is logged in
+      // User is logged in → hide login/register, show logout
       loginBtn.style.display = "none";
       registerBtn.style.display = "none";
       logoutBtn.style.display = "inline-block";
+    } else {
+      // User not logged in → show login/register, hide logout
+      loginBtn.style.display = "inline-block";
+      registerBtn.style.display = "inline-block";
+      logoutBtn.style.display = "none";
     }
 
     // Logout functionality
@@ -48,4 +51,5 @@
       window.location.href = "/api/auth/login"; // redirect to login page
     });
   </script>
-
+</body>
+</html>
