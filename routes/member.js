@@ -8,7 +8,7 @@ router.get("/",authenticateToken, memberController.index);
 router.get("/new",authenticateToken, memberController.new);
 router.post("/", memberController.create);
 router.get("/:id/edit",authenticateToken, memberController.edit);
-router.put("/:id",authenticateToken, memberController.update);
+router.post("/:id",authenticateToken, memberController.update);
 router.delete("/:id",authenticateToken, memberController.delete);
 
 module.exports = router;
