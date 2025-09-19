@@ -7,6 +7,10 @@ require("dotenv").config();
 const authRoutes = require("./routes/auth");
 const userRoutes=require("./routes/user");
 const conversationRoutes = require("./routes/conversation");
+const messageRoutes = require("./routes/message");
+const memberRoutes = require("./routes/member");
+
+
 
 const app = express();
 const PORT = process.env.PORT || 7000;
@@ -45,6 +49,9 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/api/auth", authRoutes);
 app.use("/users", userRoutes);
 app.use("/conversations", conversationRoutes);
+app.use("/messages", messageRoutes);
+app.use("/members", memberRoutes);
+
 
 
 

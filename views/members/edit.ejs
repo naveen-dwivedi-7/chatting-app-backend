@@ -1,0 +1,31 @@
+<%- include('../partials/header') %>
+
+<div class="container mt-4">
+  <h1>Edit Conversation Member</h1>
+  <form action="/members/<%= member.id %>?_method=PUT" method="POST" class="mt-3">
+    <div class="mb-3">
+      <label class="form-label">Conversation</label>
+      <select name="conversation_id" class="form-select" required>
+        <% conversations.forEach(c => { %>
+          <option value="<%= c.id %>" <%= c.id === member.conversation_id ? "selected" : "" %>>
+            <%= c.title %>
+          </option>
+        <% }) %>
+      </select>
+    </div>
+    <div class="mb-3">
+      <label class="form-label">User</label>
+      <select name="user_id" class="form-select" required>
+        <% users.forEach(u => { %>
+          <option value="<%= u.id %>" <%= u.id === member.user_id ? "selected" : "" %>>
+            <%= u.name %>
+          </option>
+        <% }) %>
+      </select>
+    </div>
+    <button type="submit" class="btn btn-primary">✅ Update</button>
+    <a href="/members" class="btn btn-secondary">⬅️ Back</a>
+  </form>
+</div>
+
+<%- include('../partials/footer') %>

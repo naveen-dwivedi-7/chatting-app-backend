@@ -1,0 +1,40 @@
+<%- include('../partials/header') %>
+
+<div class="container mt-4">
+  <h1>Conversation Members</h1>
+  <a href="/members/new" class="btn btn-primary mb-3">➕ Add Member</a>
+
+  <table class="table table-bordered">
+    <thead class="table-light">
+      <tr>
+        <th>ID</th>
+        <th>Conversation</th>
+        <th>User</th>
+        <th>Joined At</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% if (members.length > 0) { %>
+        <% members.forEach(m => { %>
+          <tr>
+            <td><%= m.id %></td>
+            <td><%= m.conversation_title %></td>
+            <td><%= m.user_name %></td>
+            <td><%= m.joined_at %></td>
+            <td>
+              <a href="/members/<%= m.id %>/edit" class="btn btn-sm btn-warning">✏️ Edit</a>
+              <form action="/members/<%= m.id %>?_method=DELETE" method="POST" style="display:inline;">
+                <button type="submit" class="btn btn-sm btn-danger">🗑️ Delete</button>
+              </form>
+            </td>
+          </tr>
+        <% }) %>
+      <% } else { %>
+        <tr><td colspan="5" class="text-center">No members found.</td></tr>
+      <% } %>
+    </tbody>
+  </table>
+</div>
+
+<%- include('../partials/footer') %>

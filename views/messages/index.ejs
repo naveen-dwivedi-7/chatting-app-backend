@@ -1,0 +1,44 @@
+<%- include('../partials/header') %>
+
+<div class="container mt-4">
+  <h1 class="mb-4">Messages List</h1>
+  <a href="/messages/new" class="btn btn-primary mb-3">➕ New Message</a>
+
+  <table class="table table-bordered">
+    <thead class="table-light">
+      <tr>
+        <th>ID</th>
+        <th>Conversation ID</th>
+        <th>Sender ID</th>
+        <th>Message</th>
+        <th>Is Read</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% if (messages.length > 0) { %>
+        <% messages.forEach(msg => { %>
+          <tr>
+            <td><%= msg.id %></td>
+            <td><%= msg.conversation_id %></td>
+            <td><%= msg.sender_id %></td>
+            <td><%= msg.message %></td>
+            <td><%= msg.is_read ? "✅ Yes" : "❌ No" %></td>
+            <td>
+              <a href="/messages/<%= msg.id %>/edit" class="btn btn-sm btn-warning">✏️ Edit</a>
+              <form action="/messages/<%= msg.id %>?_method=DELETE" method="POST" style="display:inline;">
+                <button type="submit" class="btn btn-sm btn-danger">🗑️ Delete</button>
+              </form>
+            </td>
+          </tr>
+        <% }) %>
+      <% } else { %>
+        <tr>
+          <td colspan="6" class="text-center">No messages found.</td>
+        </tr>
+      <% } %>
+    </tbody>
+  </table>
+</div>
+
+<%- include('../partials/footer') %>

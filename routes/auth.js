@@ -11,6 +11,8 @@ const authenticateToken=require("../middlewares/auth")
 router.get("/register", authController.showRegister);
 router.post("/register", upload.single("profile_image"), authController.register);
 
+router.get('/', authController.showLogin);
+
 
 router.get('/login', authController.showLogin);
 
