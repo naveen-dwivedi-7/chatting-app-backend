@@ -2,40 +2,38 @@
 
 <div class="container mt-4">
   <h1>Edit Message</h1>
-<form action="/messages/<%= message.id %>" method="POST" class="mt-3">
+  <form action="/messages/<%= message.id %>/update" method="POST">
+
     <div class="mb-3">
-      <label class="form-label">Conversation</label>
-      <select name="conversation_id" class="form-select" disabled>
+      <label for="conversation_id" class="form-label">Conversation</label>
+      <select name="conversation_id" id="conversation_id" class="form-control" required>
         <% conversations.forEach(c => { %>
-          <option value="<%= c.id %>" <%= c.id === message.conversation_id ? "selected" : "" %>>
-            <%= c.title %>
-          </option>
+          <option value="<%= c.id %>" <%= c.id == message.conversation_id ? "selected" : "" %>><%= c.title %></option>
         <% }) %>
       </select>
     </div>
+
     <div class="mb-3">
-      <label class="form-label">Sender</label>
-      <select name="sender_id" class="form-select" disabled>
+      <label for="sender_id" class="form-label">Sender</label>
+      <select name="sender_id" id="sender_id" class="form-control" required>
         <% users.forEach(u => { %>
-          <option value="<%= u.id %>" <%= u.id === message.sender_id ? "selected" : "" %>>
-            <%= u.name %>
-          </option>
+          <option value="<%= u.id %>" <%= u.id == message.sender_id ? "selected" : "" %>><%= u.name %></option>
         <% }) %>
       </select>
     </div>
+
     <div class="mb-3">
-      <label class="form-label">Message</label>
-      <textarea name="message" class="form-control" rows="3" required><%= message.message %></textarea>
+      <label for="message" class="form-label">Message</label>
+      <textarea name="message" id="message" class="form-control" rows="3" required><%= message.message %></textarea>
     </div>
-    <div class="mb-3">
-      <label class="form-label">Is Read?</label>
-      <select name="is_read" class="form-select">
-        <option value="0" <%= message.is_read ? "" : "selected" %>>No</option>
-        <option value="1" <%= message.is_read ? "selected" : "" %>>Yes</option>
-      </select>
+
+    <div class="form-check mb-3">
+      <input class="form-check-input" type="checkbox" value="1" id="is_read" name="is_read" <%= message.is_read == 1 ? "checked" : "" %>>
+      <label class="form-check-label" for="is_read">Is read</label>
     </div>
-    <button type="submit" class="btn btn-primary">✅ Update</button>
-    <a href="/messages" class="btn btn-secondary">⬅️ Back</a>
+
+    <button type="submit" class="btn btn-primary">Update</button>
+    <a href="/messages" class="btn btn-secondary">Cancel</a>
   </form>
 </div>
 

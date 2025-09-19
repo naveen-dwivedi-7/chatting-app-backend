@@ -1,32 +1,38 @@
 <%- include('../partials/header') %>
 
 <div class="container mt-4">
-  <h1>Create Message</h1>
-  <form action="/messages" method="POST" class="mt-3">
+  <h1>New Message</h1>
+  <form action="/messages/create" method="POST">
     <div class="mb-3">
-      <label class="form-label">Conversation</label>
-      <select name="conversation_id" class="form-select" required>
-        <option value="">-- Select Conversation --</option>
+      <label for="conversation_id" class="form-label">Conversation</label>
+      <select name="conversation_id" id="conversation_id" class="form-control" required>
         <% conversations.forEach(c => { %>
           <option value="<%= c.id %>"><%= c.title %></option>
         <% }) %>
       </select>
     </div>
+
     <div class="mb-3">
-      <label class="form-label">Sender</label>
-      <select name="sender_id" class="form-select" required>
-        <option value="">-- Select User --</option>
+      <label for="sender_id" class="form-label">Sender</label>
+      <select name="sender_id" id="sender_id" class="form-control" required>
         <% users.forEach(u => { %>
           <option value="<%= u.id %>"><%= u.name %></option>
         <% }) %>
       </select>
     </div>
+
     <div class="mb-3">
-      <label class="form-label">Message</label>
-      <textarea name="message" class="form-control" rows="3" required></textarea>
+      <label for="message" class="form-label">Message</label>
+      <textarea name="message" id="message" class="form-control" rows="3" required></textarea>
     </div>
-    <button type="submit" class="btn btn-success">💾 Save</button>
-    <a href="/messages" class="btn btn-secondary">⬅️ Back</a>
+
+    <div class="form-check mb-3">
+      <input class="form-check-input" type="checkbox" value="1" id="is_read" name="is_read">
+      <label class="form-check-label" for="is_read">Is read</label>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Create</button>
+    <a href="/messages" class="btn btn-secondary">Cancel</a>
   </form>
 </div>
 

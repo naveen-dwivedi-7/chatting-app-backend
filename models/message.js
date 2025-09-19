@@ -13,26 +13,31 @@ const Message = {
   },
 
   getById: async (id) => {
-    const [rows] = await db.query("SELECT * FROM messages WHERE id=?", [id]);
+    const [rows] = await db.query("SELECT * FROM messages WHERE id = ?", [id]);
     return rows[0];
   },
 
-  create: async (conversation_id, sender_id, message) => {
-    return db.query(
-      "INSERT INTO messages (conversation_id, sender_id, message) VALUES (?,?,?)",
-      [conversation_id, sender_id, message]
+  create: async (conversation_id, sender_id, message, is_read = 0) => {
+    const [result] = await db.query(
+      "INSERT INTO messages (conversation_id, sender_id, message, is_read, created_at) VALUES (?, ?, ?, ?, NOW())",
+      [conversation_id, sender_id, message, is_read]
     );
+    return result;
   },
 
-  update: async (id, message, is_read) => {
-    return db.query(
-      "UPDATE messages SET message=?, is_read=? WHERE id=?",
-      [message, is_read, id]
+  update: async (id, conversation_id, sender_id, message, is_read = 0) => {
+    const [result] = await db.query(
+      `UPDATE messages
+       SET conversation_id = ?, sender_id = ?, message = ?, is_read = ?, updated_at = CURRENT_TIMESTAMP
+       WHERE id = ?`,
+      [conversation_id, sender_id, message, is_read, id]
     );
+    return result;
   },
 
   delete: async (id) => {
-    return db.query("DELETE FROM messages WHERE id=?", [id]);
+    const [result] = await db.query("DELETE FROM messages WHERE id = ?", [id]);
+    return result;
   },
 };
 
