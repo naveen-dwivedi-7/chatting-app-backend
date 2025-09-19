@@ -14,24 +14,33 @@
       />
     </div>
 
-    <div class="form-group mt-2">
+    <!-- <div class="form-group mt-2">
       <label>Type</label>
       <select name="type" class="form-control" required>
-        <option value="1to1" <%= conversation.type === "1to1" ? "selected" : "" %>>1 to 1</option>
-        <option value="group" <%= conversation.type === "group" ? "selected" : "" %>>Group</option>
+        <option value="0" <%= conversation.type === "1to1" ? "selected" : "" %>>1 to 1</option>
+        <option value="1" <%= conversation.type === "group" ? "selected" : "" %>>Group</option>
       </select>
-    </div>
+    </div> -->
 
     <div class="form-group mt-2">
-      <label>Created By</label>
-      <select name="created_by" class="form-control" required>
-        <% users.forEach(user => { %>
-          <option value="<%= user.id %>" <%= user.id === conversation.created_by ? "selected" : "" %>>
-            <%= user.name %>
-          </option>
-        <% }) %>
-      </select>
-    </div>
+  <label>Type</label>
+  <select name="type" class="form-control" required>
+    <option value="1" <%= conversation.type == 1 ? "selected" : "" %>>1-1</option>
+    <option value="0" <%= conversation.type == 0 ? "selected" : "" %>>Group</option>
+  </select>
+</div>
+
+
+    <div class="form-group mt-2">
+  <label>Created By</label>
+  <select name="created_by" class="form-control" required>
+    <% users.forEach(user => { %>
+      <option value="<%= user.id %>" <%= user.id == conversation.created_by ? "selected" : "" %>>
+        <%= user.name %>
+      </option>
+    <% }) %>
+  </select>
+</div>
 
     <button type="submit" class="btn btn-primary mt-3">💾 Update</button>
     <a href="/conversations" class="btn btn-secondary mt-3">⬅ Back</a>
